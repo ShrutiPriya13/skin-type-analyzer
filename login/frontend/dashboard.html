@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Dashboard</h1>
+        <div id="user-info"></div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        async function fetchUser() {
+        try {
+            let response = await fetch("http://localhost:5000/auth/user", { credentials: "include" });
+            let user = await response.json();
+
+            if (user.displayName) {
+                document.getElementById("user-info").innerHTML = `
+                    <img src="${user.image}" alt="Profile Picture">
+                    <h2>${user.displayName}</h2>
+                    <p>${user.email}</p>
+                `;
+                
+                // Redirect to model.html after login
+                setTimeout(() => {
+                    window.location.href = "model.html";
+                }, 2000);
+            } else {
+                window.location.href = "index.html"; // Redirect if not logged in
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            window.location.href = "index.html";
+        }
+    }
+
+    function logout() {
+        window.location.href = "http://localhost:5000/auth/logout";
+    }
+
+    fetchUser();
+
+        function logout() {
+            window.location.href = "http://localhost:5000/auth/logout";
+        }
+
+        fetchUser();
+    </script>
+</body>
+</html>

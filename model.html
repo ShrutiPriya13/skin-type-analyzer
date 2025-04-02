@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Type Detection</title>
+    <link rel="stylesheet" href="model.css">
+</head>
+<body>
+    <div class="landing-container">
+        <h1>Discover Your Skin Type</h1>
+        <p>Get personalized skincare recommendations tailored for your skin.</p>
+        <div class="buttons">
+            <a href="#imageUpload" class="btn">Upload Image</a>
+            <a href="#skinForm" class="btn btn-secondary">Take Questionnaire</a>
+        </div>
+        <div class="image-container">
+            <img id="floatingImage" src="images/product1.png" alt="Skincare Product">
+        </div>
+        <div class="wave"></div>
+    </div>
+    
+
+    <h2 class="headng">Skin Type Detection and Recommendation</h2>
+
+    <div class="container">
+        <h3>Upload Image for AI Analysis</h3>
+        <input type="file" id="imageUpload">
+        <div id="imagePreviewPopup" class="popup" style="display: none;">
+            <div class="popup-content">
+                <img id="previewImage" src="" alt="Image Preview">
+                <div class="popup-buttons">
+                    <button id="confirmImage" class="circle-button tick">✔</button>
+                    <button id="removeImage" class="circle-button cross">✖</button>
+                </div>
+            </div>
+        </div>
+        
+        <button onclick="predictImage()">Predict via Image</button>
+        <p id="imageResult" style="color: black !important;"></p>
+        <hr>
+
+        <h3>Answer the Questionnaire</h3>
+        <form id="skinForm">
+            <label>How does your skin feel?</label><br>
+            <select class="col" id="skinFeel">
+                <option value="1">Dry</option>
+                <option value="2">Oily</option>
+                <option value="3">Normal</option>
+                <option value="4">Combination</option>
+            </select><br><br>
+
+            <label>How often do you experience breakouts?</label><br>
+            <select class="col" id="breakoutFrequency">
+                <option value="1">Rare</option>
+                <option value="2">Occasional</option>
+                <option value="3">Frequent</option>
+            </select><br><br>
+
+            <label>Does your skin feel tight or flaky?</label><br>
+            <select class="col" id="tightFlaky">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select><br><br>
+
+            <label>How are your pores?</label><br>
+            <select class="col" id="pores">
+                <option value="1">Large</option>
+                <option value="2">Small</option>
+                <option value="3">Only in T-Zone</option>
+            </select><br><br>
+
+            <label>How does your skin react to the sun?</label><br>
+            <select class="col" id="sunReaction">
+                <option value="1">Burns Easily</option>
+                <option value="2">Tans Easily</option>
+            </select><br><br>
+
+            <button type="button" onclick="predictQuestionnaire()">Predict via Questionnaire</button>
+        </form>
+
+        <p id="questionnaireResult"></p>
+
+        <div id="recommendations" class="recommendations" style="display: none;">
+            <h3>Skincare Tips</h3>
+            <p id="recommendationText"></p>
+
+            <h3>Recommended Products</h3>
+            <ul id="productList"></ul>  <!-- FIXED ID -->
+        </div>
+    </div>
+
+
+
+
+    <script>
+       const images = ["images/product1.png", "images/product2.png", "images/product4.png","images/product5.png", "images/product6.png",  "images/product8.png", "images/product9.png"];
+let index = 0;
+
+function changeImage() {
+    index = (index + 1) % images.length;
+    const imgElement = document.getElementById("floatingImage");
+    imgElement.style.opacity = 0;
+    setTimeout(() => {
+        imgElement.src = images[index];
+        imgElement.style.opacity = 1;
+    }, 1000);
+}
+
+setInterval(changeImage, 2000);
+
+document.getElementById("imageUpload").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("previewImage").src = e.target.result;
+            document.getElementById("imagePreviewPopup").style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+document.getElementById("confirmImage").addEventListener("click", function () {
+    document.getElementById("imagePreviewPopup").style.display = "none";
+});
+
+document.getElementById("removeImage").addEventListener("click", function () {
+    document.getElementById("imageUpload").value = "";
+    document.getElementById("imagePreviewPopup").style.display = "none";
+});
+
+
+
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            function predictImage() {
+                const fileInput = document.getElementById("imageUpload").files[0];
+                if (!fileInput) {
+                    alert("Please upload an image.");
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append("file", fileInput);
+
+                fetch(`${API_BASE_URL}/predict`, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Image Prediction Response:", data); // Debug API response
+
+                    if (data.skin_type) {
+                        document.getElementById("imageResult").innerText = `Predicted Skin Type: ${data.skin_type}`;
+                        showRecommendations(data.skin_type); // Ensure function is called
+                    } //else {
+                        //document.getElementById("imageResult").innerText = "Error: No skin type detected.";
+                    //}
+                    })
+                .catch(error => console.error("Error:", error));
+            }
+
+
+
+            function predictQuestionnaire() {
+                let requestData = {
+                    skin_feel: document.getElementById("skinFeel").value,
+                    breakout_frequency: document.getElementById("breakoutFrequency").value,
+                    tight_flaky: document.getElementById("tightFlaky").value,
+                    pores: document.getElementById("pores").value,
+                    sun_reaction: document.getElementById("sunReaction").value
+                };
+
+                fetch(`${API_BASE_URL}/predict_questionnaire`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Full Response:", data);  // Debugging step
+                    if (data.skin_type) {
+                        let skinType = data.skin_type;  // Define skinType inside this scope
+                        console.log("Predicted skin type:", skinType);
+                        showRecommendations(skinType);
+                    } else {
+                        console.error("Error: skin_type is missing in response");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            }
+
+            function showRecommendations(skinType) {
+                if (!skinType) {
+                    console.error("Error: No skin type provided to showRecommendations.");
+                    return;
+                }
+
+                console.log("Fetching skincare tips for:", skinType);
+                let skincareTips = {
+                    "Oily Skin": "Use oil-free products, lightweight moisturizers, and exfoliate regularly.",
+                    "Dry Skin": "Use a hydrating cleanser and moisturizer. Avoid harsh exfoliants.",
+                    "Combination Skin": "Use a gentle cleanser and apply different products for oily/dry areas.",
+                    "Normal Skin": "Maintain a balanced skincare routine with a mild cleanser and moisturizer.",
+                    "Sensitive Skin": "Use fragrance-free products, patch test new products, and avoid harsh exfoliants."
+                };
+
+                document.getElementById("recommendationText").innerText = skincareTips[skinType] || "No specific recommendations.";
+                document.getElementById("recommendations").style.display = "block";
+
+                console.log(`Fetching recommendations for: ${skinType}`); // Debugging
+
+                let skinTypeFormatted = skinType.replace(" Skin", ""); // Removes " Skin" from the string
+                fetch(`${API_BASE_URL}/recommend/${encodeURIComponent(skinTypeFormatted)}`, {
+                    method: "GET",
+                    mode: "cors",  // Ensure it's set to 'cors'
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Product Recommendation Response:", data); // Debugging
+
+                    let productContainer = document.getElementById("productList");
+                    productContainer.innerHTML = ""; // Clear previous content
+
+                    if (data.recommended_products && data.recommended_products.length > 0) {
+                        data.recommended_products.forEach(product => {
+                            let productElement = document.createElement("li");
+                            productElement.innerHTML = `
+                                <strong>${product.product_name}</strong> - ${product.price}
+                                <br>
+                                <a href="${product.product_url}" target="_blank">View Product</a>
+                            `;
+                            productContainer.appendChild(productElement);
+                            });
+                    } else {
+                        productContainer.innerHTML = "<p>No products found.</p>";
+                    }
+                    })
+                    .catch(error => console.error("Error fetching recommendations:", error));
+            }
+
+
+            window.predictImage = predictImage;
+            window.predictQuestionnaire = predictQuestionnaire;
+        });
+    </script>
+
+</body>
+</html>
+
+

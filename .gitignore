@@ -1,0 +1,18 @@
+# Ignore dataset files
+*.csv
+*.npy
+*.h5
+node_modules/
+*.env
+
+
+# Ignore virtual environment
+venv/
+
+# Ignore compiled cache
+__pycache__/
+
+# Ignore test, valid, and train image folders
+test/
+valid/
+train/

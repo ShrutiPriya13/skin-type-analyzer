@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('images/background.jpg'); /* Change to your image file */
+    background-size: cover; /* Make sure it covers the entire screen */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Keep the background fixed while scrolling */
+    /* background-color: #121212; */
+    color: white;
+    text-align: center;
+    margin: 20px;
+}
+/* 🌸 Landing Page Styles */
+.landing-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(180, 125, 150, 0.5);
+    color: #4a0542;
+    font-family: 'Playfair Display', serif;
+    position: relative;
+}
+
+.landing-container h1 {
+    font-size: 3rem;
+    animation: fadeIn 2s ease-in-out;
+    color:white;
+    margin-bottom:2px;
+    margin-top:3rem;
+}
+
+.landing-container p {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+    color:white;
+    margin-bottom:2px;
+}
+
+.landing-container .buttons {
+    margin-top: 20px;
+}
+
+.landing-container .btn {
+    display: inline-block;
+    background: linear-gradient(to right,#77355e,#f396c1);
+    color: white;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.landing-container .btn-secondary {
+    background: linear-gradient(to left,#77355e,#f396c1);
+}
+
+.landing-container .btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+}
+.image-container {
+    margin-top: 20px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: opacity 1s ease-in-out;
+}
+
+/* 🌊 Wave Effect */
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background: url('wave.svg');
+    background-size: cover;
+}
+
+/* ✨ Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2{
+    font-size: xx-large !important;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: black !important;
+}
+.container {
+    width: 50%;
+    margin: auto;
+    background-color: rgba(180, 125, 150, 0.5);
+    opacity: 0.8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+}
+h3{
+    color:rgba(46, 14, 28, 0.83);
+}
+input, select, button {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+select{
+    background-color:#896389;
+}
+button {
+    background-color: #1f041e;
+    cursor: pointer;
+    transition: background-color 0.5s ease, transform 0.3s ease; /* Slow effect */
+}
+button:hover {
+    background-color: #77355e;
+    transform: scale(1.1);
+}
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(180, 125, 150, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+    text-align: center;
+    z-index: 1000;
+}
+
+.popup-content img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.circle-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.circle-button:hover {
+    transform: scale(1.1);
+}
+
+.tick {
+    background: linear-gradient(to right, #e87aba, #722f51);
+    color: white;
+}
+
+.cross {
+    background: linear-gradient(to right, #301543, #ab38a4);
+    color: white;
+}
+#imageResult {
+    font-weight: bolder;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(255, 255, 255) !important; 
+    font-size: large;
+}
+
+
+.recommendations {
+    margin-top: 20px;
+    padding: 15px;
+    background-color:#f5f5d56b;
+    border-radius: 10px;
+}
+
+.col{
+    background: linear-gradient(to bottom, #000000, #222122);
+    opacity: 0.5;
+    text-align: center;
+}
+.col option {
+    background-color: #77355e; /* Background color */
+    color: white; /* Text color */
+    padding: 10px;
+}
+
+/* When hovering over an option */
+.col option:hover {
+    background-color: #f396c1;
+    color: white;
+}
+.col:focus option {
+    background-color: #b06186;
+}
