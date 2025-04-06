@@ -43,7 +43,6 @@ Once the skin type is detected, the app offers customized skincare tips and prod
 - Backend: Node.js, Express
 - Machine Learning: Python, TensorFlow, Keras (for skin type detection)
 - Database: MongoDB (for storing user preferences and recommendations)
-- Deployment: vercel
 
 ## Getting started
 
