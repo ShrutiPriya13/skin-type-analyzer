@@ -21,22 +21,22 @@ Once the skin type is detected, the app offers customized skincare tips and prod
 ## Screenshots
 ### Login Page 
 
-![Login page](photos-for-readme/ss1.png)
+![Login page](photos-for-readmd/ss1.png)
 
 ### Home Page 
-![Home page](photos-for-readme/ss2.png)
+![Home page](photos-for-readmd/ss2.png)
 
 ### Upload image for prediction via image
-![Image page](photos-for-readme/ss3.png)
+![Image page](photos-for-readmd/ss3.png)
 
 ### Questionnaire-based prediction
-![Question page](photos-for-readme/ss4.png)
+![Question page](photos-for-readmd/ss4.png)
 
 ### Recommended products after prediction
-![Recommend page](photos-for-readme/ss5.png)
+![Recommend page](photos-for-readmd/ss5.png)
 
 ### Logout 
-![Logout page](photos-for-readme/ss6.png)
+![Logout page](photos-for-readmd/ss6.png)
 
 ## Technologies Used
 - Frontend: HTML, CSS, JavaScript, React
